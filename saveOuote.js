@@ -5,6 +5,15 @@ var async = require('async'),
   JSONStream = require('JSONStream'),
   config = require('config');
 
+if (config.get('marketHours') == 1) {
+  // it only run between 6:20am and 13:10pm
+  var dt = new Date();
+  if (((dt.getHours()*100 + dt.getMinutes()) <= 618) || ((dt.getHours()*100 + dt.getMinutes()) >= 1312)) {
+    console.log('Out of market hours!');
+    process.exit(0);
+  }
+}
+
 //  stockList : ['UVXY','SVXY','SPY','SPXL','SPLS','$SPX.X'],
 
 //async.eachSeries(['SPXL','SPXS'], function(item, ecb) {
@@ -42,14 +51,13 @@ async.each(config.get('stockList.full'), function(item, ecb) {
                    +parseInt(tick.volume,10) + ", '"
                    +tick.createdDate.toUTCString()
                    + "')"
-                 console.log(qStr);
                  return con.query(qStr, function() {
                    cb();
                  });
                }, function(err) {
-                 console.log('inserted : ', stockTick.symbol);
+                 console.log('Stock tick inserted : ', stockTick.symbol);
                  if (err)
-                   console.log('Stock insert error : ',err);
+                   console.log('Stock insert error : ',err, qStr);
                  xcb()
                });
              });
@@ -73,8 +81,8 @@ async.each(config.get('stockList.full'), function(item, ecb) {
              ' opint double precision, ' +
              ' tstamp timestamp with time zone NOT NULL)'
            ).on('end', function(){
+               var cnt = 0;
                console.log("Created contracts table :", stockTick.symbol+'__');
-
                async.each(_.toArray(allData),function(tick, cb) {
                  con.query("insert into "+stockTick.symbol+"__" +
                  " (contract, title, act, strike, bid, ask, iv, theo, delta, gamma, theta, vega, rho, last, change, vol, opint, tstamp) values('"
@@ -122,12 +130,13 @@ async.each(config.get('stockList.full'), function(item, ecb) {
                      console.log(tick);
                      console.log('contract insert error : ', err)
                    }
+                   cnt++;
                    cb();
                  });
                }, function(err) {
                  if (err)
                    console.log(err);
-                 console.log("Contracts added :", stockTick.symbol+'__');
+                 console.log("Contracts inserted :", stockTick.symbol+'__', cnt);
                  xcb();
                });
              });
