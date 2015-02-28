@@ -1,0 +1,17 @@
+{
+  "name": "optionsViewer",
+  "version": "0.0.1",
+  "private": true,
+  "engines": {
+    "node": "0.10.5",
+    "npm": "1.2.x"
+  },
+  "dependencies": {
+    "async": "latest",
+    "cheerio": "^0.18.0",
+    "config": "^1.12.0",
+    "node-xml2json": "latest",
+    "request": "^2.53.0",
+    "underscore": "^1.7.0"
+  }
+}
