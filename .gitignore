@@ -20,5 +20,5 @@ npm-debug.log
 .sass-cache
 .idea*
 .agignore
-/quotehtml
+/html
 /config
