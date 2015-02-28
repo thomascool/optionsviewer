@@ -136,7 +136,7 @@ async.each(config.get('stockList.full'), function(item, ecb) {
                }, function(err) {
                  if (err)
                    console.log(err);
-                 console.log("Contracts inserted :", stockTick.symbol+'__', cnt);
+                 console.log("Contracts inserted (%d): %s", cnt, stockTick.symbol+'__');
                  xcb();
                });
              });
