@@ -17,7 +17,7 @@ var allfnames = _.map(fs.readdirSync(rootPath), function(item) {
   }
 });
 
-var Looking4Key = '$SPX.X';
+var Looking4Key = 'AAPL';
 // pick the stocks by code
 var step1 =  _.filter(allfnames, function(item){
 //console.log( item.fname.substring(0,6) );
@@ -46,11 +46,12 @@ allFname = _.filter(allFname, function(val, key) {
 
 console.log( allFname );
 
+
 //async.each(config.get('stockList.full'), function(item, ecb) {
 async.eachSeries(allFname, function(item, ecb) {
 
   console.log('~~~', item);
-  var qQuote = require('./lib/fGetOptionsQuote');
+  var qQuote = require('./lib/getOptionsQuote');
   var con;
    qQuote.getOptionsQuote(Looking4Key, item, function(err, allData, stockTick) {
      var YYMMDD = (stockTick.createdDate.getFullYear().toString().substr(2,2) + '' + ('0'+(stockTick.createdDate.getMonth()+1)).slice(-2) + '' + ('0'+(stockTick.createdDate.getDate())).slice(-2));

@@ -18,10 +18,11 @@ if (config.get('marketHours') == 1) {
 
 //async.eachSeries(['SPXL','SPXS'], function(item, ecb) {
 //async.eachSeries(['SPXL', 'SPXS'], function(item, ecb) {
-async.each(config.get('stockList.full'), function(item, ecb) {
+async.each(['AAPL'], function(item, ecb) {
+//async.each(config.get('stockList.full'), function(item, ecb) {
   var qQuote = require('./lib/getOptionsQuote');
   var con;
-   qQuote.getOptionsQuote(item, function(err, allData, stockTick) {
+   qQuote.getOptionsQuote(item, undefined, function(err, allData, stockTick) {
      var YYMMDD = (stockTick.createdDate.getFullYear().toString().substr(2,2) + '' + ('0'+(stockTick.createdDate.getMonth()+1)).slice(-2) + '' + ('0'+(stockTick.createdDate.getDate())).slice(-2));
 
      if (err) {
