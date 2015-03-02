@@ -1,3 +1,7 @@
+#!/usr/bin/env node
+GLOBAL.rootpath = __dirname;
+process.env.NODE_CONFIG_DIR = __dirname + '/config';
+
 var async = require('async'),
   _ = require('underscore')
   pg = require('pg'),
@@ -18,8 +22,7 @@ if (config.get('marketHours') == 1) {
 
 //async.eachSeries(['SPXL','SPXS'], function(item, ecb) {
 //async.eachSeries(['SPXL', 'SPXS'], function(item, ecb) {
-async.each(['AAPL'], function(item, ecb) {
-//async.each(config.get('stockList.full'), function(item, ecb) {
+async.each(config.get('stockList.full'), function(item, ecb) {
   var qQuote = require('./lib/getOptionsQuote');
   var con;
    qQuote.getOptionsQuote(item, undefined, function(err, allData, stockTick) {
