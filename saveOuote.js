@@ -1,7 +1,3 @@
-#!/usr/bin/env node
-GLOBAL.rootpath = __dirname;
-process.env.NODE_CONFIG_DIR = __dirname + '/config';
-
 var async = require('async'),
   _ = require('underscore')
   pg = require('pg'),
