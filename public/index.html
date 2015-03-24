@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>
+        Chart
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script src="http://code.jquery.com/jquery-1.9.1.js" type="text/javascript"></script>
+
+    <script src="http://code.highcharts.com/stock/highstock.js"></script>
+    <script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
+
+    <div id="container" style="height: 400px; min-width: 310px"></div>
+    <script type="text/javascript">
+        $(function () {
+            var seriesOptions = [],
+                    seriesCounter = 0,
+//                    names = ['MSFT', 'AAPL', 'GOOG'],
+                    names = ['MSFT'],
+            // create the chart when all data is loaded
+                    createChart = function () {
+
+                        $('#container').highcharts('StockChart', {
+
+                            rangeSelector: {
+                                selected: 4
+                            },
+
+                            yAxis: {
+                                labels: {
+                                    formatter: function () {
+                                        return (this.value > 0 ? ' + ' : '') + this.value + '%';
+                                    }
+                                },
+                                plotLines: [{
+                                    value: 0,
+                                    width: 2,
+                                    color: 'silver'
+                                }]
+                            },
+
+                            plotOptions: {
+                                series: {
+                                    compare: 'percent'
+                                }
+                            },
+
+                            tooltip: {
+                                pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+                                valueDecimals: 2
+                            },
+
+                            series: seriesOptions
+                        });
+                    };
+
+            $.each(names, function (i, name) {
+                http://localhost:9090/api/stock/5m/svxy/150302?pick=id,last
+//                        $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=' + name.toLowerCase() + '-c.json&callback=?'
+                $.getJSON('http://localhost:9090/api/stock/5m/svxy/150302?pick=last'
+                        ,    function (data) {
+
+                    seriesOptions[i] = {
+                        name: name,
+                        data: data
+                    };
+
+                    // As we're loading the data asynchronously, we don't know what order it will arrive. So
+                    // we keep a counter and create the chart when all the data is loaded.
+                    seriesCounter += 1;
+
+                    if (seriesCounter === names.length) {
+                        createChart();
+                    }
+                });
+            });
+        });
+
+    </script>
+</head>
+<body>
+<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+</body>
+</html>
