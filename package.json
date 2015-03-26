@@ -13,6 +13,7 @@
     "express": "^4.12.3",
     "lactate": "^0.13.12",
     "node-xml2json": "latest",
+    "pg-format": "^0.1.4",
     "request": "^2.53.0",
     "underscore": "^1.7.0"
   }
