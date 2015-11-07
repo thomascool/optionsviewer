@@ -38,7 +38,7 @@ async.each(config.get('stockList.full'), function(item, ecb) {
              ' ( id serial NOT NULL, symbol character varying(32) NOT NULL,' +
              ' bid double precision, ask double precision, last double precision,' +
              ' change double precision, basize character varying(32), high double precision,' +
-             ' low double precision, volume bigint, tstamp timestamp with time zone NOT NULL)'
+             ' low double precision, volume bigint, delta100 integer, tstamp timestamp with time zone NOT NULL)'
            ).on('end', function(){
                console.log("Created stock table :", 's__'+stockTick.symbol);
                async.each([stockTick],function(tick, cb) {
@@ -51,7 +51,7 @@ async.each(config.get('stockList.full'), function(item, ecb) {
                    +tick.BAsize + "', "
                    +tick.high + ", "
                    +tick.low + ", "
-                   +parseInt(tick.volume,10) + ", '"
+                   +parseInt(tick.volume,10) + ", null, '"
                    +tick.createdDate.toUTCString()
                    + "') RETURNING * "
                  return con.query(qStr, function(err, data) {

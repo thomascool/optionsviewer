@@ -6,7 +6,7 @@ var async = require('async'),
   JSONStream = require('JSONStream'),
   config = require('config');
 
-var rootPath = '/Users/thomas/Desktop/RB/optionsviewer/imp/tmp'
+var rootPath = '/Users/wku/Desktop/RB/optionsviewer/imp/tmp'
 
 var allfnames = _.map(fs.readdirSync(rootPath), function(item) {
   var tmp = item.split("^");
@@ -17,7 +17,7 @@ var allfnames = _.map(fs.readdirSync(rootPath), function(item) {
   }
 });
 
-var Looking4Key = 'AAPL';
+var Looking4Key = '$SPX.X';
 // pick the stocks by code
 var step1 =  _.filter(allfnames, function(item){
 //console.log( item.fname.substring(0,6) );
