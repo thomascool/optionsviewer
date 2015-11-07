@@ -42,7 +42,7 @@ async.each(config.get('stockList.full'), function(item, ecb) {
            ).on('end', function(){
                console.log("Created stock table :", 's__'+stockTick.symbol);
                async.each([stockTick],function(tick, cb) {
-                 var qStr = "insert into s__"+tick.symbol+" (symbol, bid, ask, last, change, basize, high, low, volume, tstamp) values('"
+                 var qStr = "insert into s__"+tick.symbol+" (symbol, bid, ask, last, change, basize, high, low, volume, delta100, tstamp) values('"
                    +tick.symbol + "', "
                    +tick.bid +  ",  "
                    +tick.ask +  ", "
@@ -60,7 +60,7 @@ async.each(config.get('stockList.full'), function(item, ecb) {
                }, function(err) {
                  console.log('Stock tick inserted : ', 's__'+stockTick.symbol);
                  if (err)
-                   console.log('Stock insert error : ',err, qStr);
+                   console.log('Stock insert error : ',err);
                  xcb(err)
                });
              });
