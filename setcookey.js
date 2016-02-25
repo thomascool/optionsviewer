@@ -5,7 +5,7 @@ var async = require('async'),
 // Nodejs encryption with CTR
 var crypto = require('crypto'),
     algorithm = 'aes-256-ctr',
-    password = config.get('DATABASE_URL');
+    password = config.get('dbConfig.user');
 
 var redis = require('redis');
 var client = redis.createClient(config.get('redisConfig'));
