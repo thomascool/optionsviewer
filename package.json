@@ -16,6 +16,9 @@
     "node-xml2json": "latest",
     "pg-format": "^0.1.4",
     "request": "^2.53.0",
-    "underscore": "^1.7.0"
+    "underscore": "^1.7.0",
+    "crypto": "0.0.3",
+    "redis":"2.4.2"
   }
 }
+
