@@ -19,7 +19,8 @@ client.connect(function(err) {
 
         client.query("SELECT distinct to_char(tstamp, 'YYMMDD') daily FROM s__"+tname+" WHERE delta100 is null", function(err, result) {
           if (err) cb(err);
-          rtn.push({tname : tname, rows : result.rows});
+          if (result.rows.length > 0)
+             rtn.push({tname : tname, rows : result.rows});
           tot_tname--;
           if (tot_tname == 0) cb(null, rtn);
         });
@@ -28,6 +29,7 @@ client.connect(function(err) {
     function(rtn, cb) {
       console.log(JSON.stringify(rtn))
       var tot_size = 0;
+      if (rtn.length == 0) cb(null)
       async.each(rtn, function(l1) {
         var tname = l1.tname;
         tot_size = tot_size + l1.rows.length;

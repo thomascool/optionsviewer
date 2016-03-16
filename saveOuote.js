@@ -8,7 +8,7 @@ var async = require('async'),
 if (config.get('marketHours') == 1) {
   // it only run between 6:20am and 13:10pm
   var dt = new Date();
-  if (((dt.getHours()*100 + dt.getMinutes()) <= 618) || ((dt.getHours()*100 + dt.getMinutes()) >= 1312)) {
+  if (((dt.getHours()*100 + dt.getMinutes()) <= 615) || ((dt.getHours()*100 + dt.getMinutes()) >= 1315)) {
     console.log('Out of market hours!');
     process.exit(0);
   }
@@ -87,6 +87,8 @@ async.each(config.get('stockList.full'), function(item, ecb) {
                var cnt = 0;
                console.log("Created contracts table :", 'c__'+stockTick.symbol+'__'+ YYMMDD);
                async.each(_.toArray(allData),function(tick, cb) {
+                 console.log("~~~", tick.createdDate.toUTCString(), '^^^', tick.createdDate );
+
                  con.query("insert into c__"+stockTick.symbol+"__" +YYMMDD+
                  " (contract, title, act, strike, bid, ask, iv, theo, delta, gamma, theta, vega, rho, last, change, vol, opint, tstamp) values('"
                  +tick.contract + "', '"
