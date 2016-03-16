@@ -87,8 +87,6 @@ async.each(config.get('stockList.full'), function(item, ecb) {
                var cnt = 0;
                console.log("Created contracts table :", 'c__'+stockTick.symbol+'__'+ YYMMDD);
                async.each(_.toArray(allData),function(tick, cb) {
-                 console.log("~~~", tick.createdDate.toUTCString(), '^^^', tick.createdDate );
-
                  con.query("insert into c__"+stockTick.symbol+"__" +YYMMDD+
                  " (contract, title, act, strike, bid, ask, iv, theo, delta, gamma, theta, vega, rho, last, change, vol, opint, tstamp) values('"
                  +tick.contract + "', '"
