@@ -1,7 +1,7 @@
 
 var config = require('config');
 var Nightmare = require('nightmare');
-var nightmare = Nightmare({ show: false });
+var nightmare = Nightmare({ show: true });
 
 nightmare
     .viewport(1000, 1000)
@@ -13,6 +13,7 @@ nightmare
     .click('form[class="tdaForm loginForm"] [type=submit]')
     .wait()
 //    .type('form[class="tdaForm securityChallengeForm"] [name=challengeAnswer]', config.get('challengeAnswer'))
+//    .click('form[class="tdaForm securityChallengeForm"] [type=checkbox]')
 //    .click('form[class="tdaForm securityChallengeForm"] [type=submit]')
     .cookies.get("TDATRADING")
     .then(function(cookies) {
