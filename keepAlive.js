@@ -43,7 +43,7 @@ qQuote.requestURL(buildURL('AAPL')  , function(err, data) {
           output.webRequest.headers.Cookie = "TDATRADING=" + cookies.value;
           console.log(JSON.stringify(output));
             jsonfile.writeFile(__dirname + '/config/local.json', output, function (err) {
-                console.error(new Date(), err);
+                console.log(new Date(), err);
                 process.exit(0)
             })
 
