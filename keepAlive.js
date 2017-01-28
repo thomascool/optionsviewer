@@ -27,10 +27,11 @@ qQuote.requestURL(buildURL('AAPL')  , function(err, data) {
         .type('form[class="tdaForm loginForm"] [name=tbUsername]', config.get('tbUsername'))
         .type('form[class="tdaForm loginForm"] [name=tbPassword]', config.get('tbPassword'))
         .click('form[class="tdaForm loginForm"] [type=submit]')
-        .wait()
+        .wait(500)
 //        .type('form[class="tdaForm securityChallengeForm"] [name=challengeAnswer]', config.get('challengeAnswer'))
 //        .click('form[class="tdaForm securityChallengeForm"] [type=checkbox]')
 //        .click('form[class="tdaForm securityChallengeForm"] [type=submit]')
+//        .wait(1000)
         .cookies.get("TDATRADING")
         .then(function(cookies) {
           var output = {
@@ -54,7 +55,7 @@ qQuote.requestURL(buildURL('AAPL')  , function(err, data) {
           }
 
         });
-  }
+  };
 
 });
 
