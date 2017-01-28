@@ -40,12 +40,18 @@ qQuote.requestURL(buildURL('AAPL')  , function(err, data) {
               }
             }
           };
-          output.webRequest.headers.Cookie = "TDATRADING=" + cookies.value;
-          console.log(JSON.stringify(output));
-            jsonfile.writeFile(__dirname + '/config/local.json', output, function (err) {
-                console.log(new Date(), err);
-                process.exit(0)
-            })
+          if (cookies.value) {
+              output.webRequest.headers.Cookie = "TDATRADING=" + cookies.value;
+              console.log(JSON.stringify(output));
+              jsonfile.writeFile(__dirname + '/config/local.json', output, function (err) {
+                  console.log(new Date(), err);
+                  if (err) process.exit(3)
+                  else process.exit(0);
+              })
+          } else {
+              console.log('sign-in failed!');
+              process.exit(2);
+          }
 
         });
   }
