@@ -25,3 +25,5 @@ npm-debug.log
 /imp
 *.gz
 crontab.lst.prod
+
+exp/*.json
