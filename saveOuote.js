@@ -3,13 +3,14 @@ var async = require('async'),
   pg = require('pg'),
   QueryStream = require('pg-query-stream'),
   JSONStream = require('JSONStream'),
-  config = require('config');
+  config = require('config'),
+  writeJsonFile = require('write-json-file');
 
 if (config.get('marketHours') == 1) {
   // it only run between 6:00am and 13:31pm
   var dt = new Date();
   if (((dt.getHours()*100 + dt.getMinutes()) <= 600) || ((dt.getHours()*100 + dt.getMinutes()) >= 1331)) {
-    console.log('Out of market hours!');
+ //   console.log('Out of market hours!');
 //    process.exit(0);
   }
 }
@@ -18,7 +19,7 @@ if (config.get('marketHours') == 1) {
 
 //async.eachSeries(['SPXL','SPXS'], function(item, ecb) {
 //async.eachSeries(['SPXL', 'SPXS'], function(item, ecb) {
-async.each(config.get('stockList.full'), function(item, ecb) {
+async.map(config.get('stockList.full'), function(item, ecb) {
   var qQuote = require('./lib/getOptionsQuote');
   var con;
    qQuote.getOptionsQuote(item, undefined, function(err, allData, stockTick) {
@@ -29,9 +30,19 @@ async.each(config.get('stockList.full'), function(item, ecb) {
      } else {
        async.waterfall([
          function(xcb) {
+           writeJsonFile('exp/'+ stockTick.symbol +'~'+ stockTick.timeStamp + '.json', stockTick ).then(() => {
+             writeJsonFile('exp/'+ stockTick.symbol +'_'+ stockTick.timeStamp + '.json', allData ).then(() => {
+                 console.log('dumped json : '+ stockTick.symbol +'_'+ stockTick.timeStamp + '.json');
+                 xcb();
+             });
+           });
+         },
+         function(xcb) {
            con = new pg.Client(config.get('dbConfig'));
-           con.connect();
-           xcb();
+           con.connect(function (err) {
+               if (err) console.log(err);
+               xcb(err);
+           });
          },
          function(xcb) {
            con.query('CREATE TABLE IF NOT EXISTS s__'+stockTick.symbol+
@@ -146,6 +157,7 @@ async.each(config.get('stockList.full'), function(item, ecb) {
              });
          }
        ], function (error) {
+
          con.end();
          ecb();
        });
